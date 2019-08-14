@@ -1,0 +1,103 @@
+<% include ../partials/header %>
+
+<header class="jumbotron">
+    <div class="container">
+        <h1>Welcome to RentAHouse</h1>
+        <p>Check out these rad houses!</p>
+        <p>
+            <a class="btn btn-primary btn-md" href="/houses/new">Add new House!</a>
+        </p>
+        <p>
+            <form action="/houses" method="GET" class="form-inline">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Search name or location..." class="form-control">
+                    <input type="submit" value="Search" class="btn btn-default">
+                </div>
+            </form>
+        </p>
+    </div>
+</header>
+
+<div class="row text-center" style="display:flex; flex-wrap: wrap">
+    <% houses.forEach(house => { %>
+    <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+            <img src="<%= house.image %>">
+            <div class="caption">
+                <h4>
+                    <%= house.name %>
+                </h4>
+                <!-- House Like Rating -->
+                <div>
+                    <span class="badge label-primary"><i class="fas fa-thumbs-up"></i>
+                        <%= house.likes.length %></span>
+                </div>
+                <!-- House Star Rating -->
+                <% if (house.rating === 0) { %>
+                <em>No reviews yet.</em>
+                <% } else { %>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star <% if (house.rating > 1.5) { %> checked <% } %>"></span>
+                <span class="fa fa-star <% if (house.rating > 2.5) { %> checked <% } %>"></span>
+                <span class="fa fa-star <% if (house.rating > 3.5) { %> checked <% } %>"></span>
+                <span class="fa fa-star <% if (house.rating > 4.5) { %> checked <% } %>"></span>
+                <% } %>
+            </div>
+            <p>
+                <a href="/houses/<%= house._id %>" class="btn btn-primary">More info</a>
+            </p>
+        </div>
+    </div>
+    <% }); %>
+</div>
+
+<div class="row text-center">
+    <% if (pages && pages > 0) { %>
+    <ul class="pagination text-center">
+        <% if (current == 1) { %>
+        <li class="disabled"><a>First</a></li>
+        <% } else { %>
+        <li><a href="/houses<%if(search){%>?search=<%=search%><%}%>">First</a></li>
+            <% } %>
+     
+            <% if (current == 1) { %>
+            <li class=" disabled"><a>«</a></li>
+        <% } else { %>
+        <li><a href="/houses?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a></li>
+            <% } %>
+     
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+            <li class=" disabled"><a>...</a></li>
+        <% } %>
+        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+        <% if (i == current) { %>
+        <li class="active"><a><%= i %></a></li>
+        <% } else { %>
+        <li><a href="/houses?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+            <li class=" disabled"><a>...</a></li>
+        <% } %>
+        <% } %>
+
+        <% if (current == pages) { %>
+        <li class="disabled"><a>»</a></li>
+        <% } else { %>
+        <li><a href="/houses?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a></li>
+            <% } %>
+     
+            <% if (current == pages) { %>
+            <li class=" disabled"><a>Last</a></li>
+        <% } else { %>
+        <li><a href="/houses?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a></li>
+            <% } %>
+        </ul>
+        <% } %>
+    </div>
+</div>
+
+
+
+
+<% include ../partials/footer %>

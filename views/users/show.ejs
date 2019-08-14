@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-4">
+        <h1><%= user.firstName + " " + user.lastName %></h1>
+        <div class="thumbnail">
+            <img src="<%= user.avatar %>" alt="user profile image">
+            <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+        </div>
+        DESCRIPTION TEXT: Mattis aliquam faucibus purus in massa tempor nec feugiat. Venenatis lectus magna fringilla
+        urna porttitor rhoncus dolor. Mus mauris vitae ultricies leo integer malesuada nunc vel. Arcu dui vivamus arcu
+        felis. Sed cras ornare arcu dui vivamus. In pellentesque massa placerat duis ultricies. Gravida dictum fusce ut
+        placerat orci nulla.
+    </div>
+
+    <div class="col-md-8">
+        <h3><%= user.username %>'s listing(s)</h3>
+        <ul>
+            <% houses.forEach((house) =>{ %>
+            <li><a href="/houses/<%= house.id %>"><%= house.name %></a></li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+
+<% include ../partials/footer %>
