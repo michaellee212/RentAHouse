@@ -2,16 +2,17 @@
 
 <header class="jumbotron">
     <div class="container">
-        <h1>Welcome to RentAHouse</h1>
-        <p>Check out these rad houses!</p>
+        <h1>Welcome to <i class="fas fa-home"></i> RentAHouse</h1>
+        <p>Check out these beautiful homes! Search with listing name or by city!</p>
         <p>
-            <a class="btn btn-primary btn-md" href="/houses/new">Add new House!</a>
+            <a class="btn btn-primary btn-md pull-right" href="/houses/new">Add new House!</a>
         </p>
         <p>
             <form action="/houses" method="GET" class="form-inline">
                 <div class="form-group">
-                    <input type="text" name="search" placeholder="Search name or location..." class="form-control">
-                    <input type="submit" value="Search" class="btn btn-default">
+                    <input class="searchbar" type="text" name="search" placeholder="Search name or city..."
+                        class="form-control">
+                    <input type="submit" value="Search" class="btn btn-default col-sm-pull-left">
                 </div>
             </form>
         </p>
@@ -20,7 +21,7 @@
 
 <div class="row text-center" style="display:flex; flex-wrap: wrap">
     <% houses.forEach(house => { %>
-    <div class="col-md-3 col-sm-6">
+    <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="thumbnail">
             <img src="<%= house.image %>">
             <div class="caption">
