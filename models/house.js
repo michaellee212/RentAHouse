@@ -7,6 +7,7 @@ var houseSchema = new mongoose.Schema({
     name: String,
     price: Number,
     image: String,
+    imageId: String,
     bedrooms: Number,
     beds: Number,
     bathrooms: Number,

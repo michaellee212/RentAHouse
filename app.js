@@ -1,3 +1,4 @@
+var dotenv = require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
@@ -11,7 +12,9 @@ var Comment = require("./models/comment");
 var User = require("./models/user");
 var methodOverride = require("method-override");
 var flash = require("connect-flash");
-const port = 3000;
+
+const port = process.env.PORT || 3000;
+
 
 // Removes any script tags in the body
 // const expressSanitizer = require('express-sanitizer');
@@ -25,9 +28,22 @@ var houseRoutes = require("./routes/houses");
 var indexRoutes = require("./routes/index");
 
 
-mongoose.connect("mongodb://localhost:27017/rent_a_house", {
-    useNewUrlParser: true
+// mongoose.connect("mongodb://localhost:27017/rent_a_house", {
+//     useNewUrlParser: true
+// });
+
+
+// HEROKU SETUP
+mongoose.connect('mongodb+srv://michaelee212:fRIxj2c8oi2CAAHc@cluster-qryvj.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log('Connected to DB!');
+}).catch(err => {
+    console.log('ERROR:', err.message);
 });
+
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
     extended: true

@@ -14,7 +14,17 @@ body {
   color: white;
   font-size: 50px;
   font-family: 'Lexend Giga', sans-serif;
-  margin-bottom: 10rem;
+  margin-bottom: 4rem;
+}
+
+#landing-header h2 {
+  color: white;
+  font-size: 30px;
+  margin-bottom: 3rem;
+}
+
+#landing-header a {
+  margin-top: 2rem;
 }
 
 .slideshow {

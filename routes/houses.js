@@ -5,7 +5,31 @@ var middleware = require("../middleware");
 var Review = require("../models/review");
 var Comment = require("../models/comment");
 
+// Multer/Cloudinary
+var multer = require('multer');
+var storage = multer.diskStorage({
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({
+    storage: storage,
+    fileFilter: imageFilter
+})
 
+var cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'michael-lee-415',
+    api_key: 252944288264838,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 //INDEX - Show all houses
 router.get("/", function (req, res) {
@@ -65,41 +89,63 @@ router.get("/", function (req, res) {
 });
 
 
-
 // CREATE - Add new houses to DB
-router.post("/", middleware.isLoggedIn, (req, res) => {
-    var name = req.body.name;
-    var price = req.body.price;
-    var image = req.body.image;
-    var bedrooms = req.body.bedrooms;
-    var beds = req.body.beds;
-    var bathrooms = req.body.bathrooms;
-    var location = req.body.location;
-    var desc = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    var newHouse = {
-        name: name,
-        price: price,
-        image: image,
-        bedrooms: bedrooms,
-        beds: beds,
-        bathrooms: bathrooms,
-        location: location,
-        description: desc,
-        author: author
-    }
-    // Create a new house and save to DB
-    House.create(newHouse, (err, createdHouse) => {
+router.post("/", middleware.isLoggedIn, upload.single('image'), (req, res) => {
+    //     var name = req.body.name;
+    //     var price = req.body.price;
+    //     var image = req.body.image;
+    //     var bedrooms = req.body.bedrooms;
+    //     var beds = req.body.beds;
+    //     var bathrooms = req.body.bathrooms;
+    //     var location = req.body.location;
+    //     var desc = req.body.description;
+    //     var author = {
+    //         id: req.user._id,
+    //         username: req.user.username
+    //     }
+    //     var newHouse = {
+    //         name: name,
+    //         price: price,
+    //         image: image,
+    //         bedrooms: bedrooms,
+    //         beds: beds,
+    //         bathrooms: bathrooms,
+    //         location: location,
+    //         description: desc,
+    //         author: author
+    //     }
+    //     // Create a new house and save to DB
+    //     House.create(newHouse, (err, createdHouse) => {
+    //         if (err) {
+    //             req.flash("error", err.message);
+    //         } else {
+    //             // Redirect back to list of houses
+    //             res.redirect("/houses");
+    //         }
+    //     })
+    // });
+    cloudinary.v2.uploader.upload(req.file.path, function (err, result) {
         if (err) {
-            req.flash("error", err.message);
-        } else {
-            // Redirect back to list of houses
-            res.redirect("/houses");
+            req.flash("error", "Can't upload image, try again later.");
+            return req.redirect("back");
         }
-    })
+        // add cloudinary url for the image to the house object under image property
+        req.body.house.image = result.secure_url;
+        // add image's public_id to house object
+        req.body.house.imageId = result.public_id;
+        // add author to house
+        req.body.house.author = {
+            id: req.user._id,
+            username: req.user.username
+        }
+        House.create(req.body.house, function (err, house) {
+            if (err) {
+                req.flash('error', err.message);
+                return res.redirect('back');
+            }
+            res.redirect('/houses/' + house.id);
+        });
+    });
 });
 
 
@@ -144,34 +190,61 @@ router.get("/:id/edit", middleware.checkHouseOwnership, (req, res) => {
 });
 
 // UPDATE HOUSE ROUTE
-router.put("/:id", middleware.checkHouseOwnership, (req, res) => {
-    // Removes any script tags in the body
-    // req.body.house.body = req.sanitize(req.body.house.body);
-    House.findById(req.params.id, function (err, house) {
-        delete req.body.house.rating;
+router.put("/:id", middleware.checkHouseOwnership, upload.single('image'), (req, res) => {
+    //     // Removes any script tags in the body
+    //     // req.body.house.body = req.sanitize(req.body.house.body);
+    //     House.findById(req.params.id, function (err, house) {
+    //         delete req.body.house.rating;
+    //         if (err) {
+    //             req.flash("error", err.message);
+    //             res.redirect("/houses");
+    //         } else {
+    //             house.name = req.body.house.name;
+    //             house.price = req.body.house.price;
+    //             house.description = req.body.house.description;
+    //             house.image = req.body.house.image;
+    //             house.bedrooms = req.body.house.bedrooms;
+    //             house.beds = req.body.house.beds;
+    //             house.bathrooms = req.body.house.bathrooms;
+    //             house.location = req.body.house.location;
+    //             house.save(function (err) {
+    //                 if (err) {
+    //                     req.flash("error", err.message);
+    //                     res.redirect("/houses");
+    //                 } else {
+    //                     res.redirect("/houses/" + house._id);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+    House.findById(req.params.id, async function (err, house) {
         if (err) {
             req.flash("error", err.message);
-            res.redirect("/houses");
+            res.redirect("back");
         } else {
-            house.name = req.body.house.name;
-            house.price = req.body.house.price;
-            house.description = req.body.house.description;
-            house.image = req.body.house.image;
-            house.bedrooms = req.body.house.bedrooms;
-            house.beds = req.body.house.beds;
-            house.bathrooms = req.body.house.bathrooms;
-            house.location = req.body.house.location;
-            house.save(function (err) {
-                if (err) {
+            if (req.file) {
+                try {
+                    await cloudinary.v2.uploader.destroy(house.imageId);
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
+                    house.imageId = result.public_id;
+                    house.image = result.secure_url;
+                } catch (err) {
                     req.flash("error", err.message);
-                    res.redirect("/houses");
-                } else {
-                    res.redirect("/houses/" + house._id);
+                    return res.redirect("back");
                 }
-            });
+            }
+            house.name = req.body.name;
+            house.description = req.body.description;
+            house.save();
+            req.flash("success", "Successfully Updated!");
+            res.redirect("/houses/" + house._id);
         }
     });
 });
+
+
 
 // DESTROY HOUSE ROUTE
 router.delete("/:id", middleware.checkHouseOwnership, function (req, res) {
