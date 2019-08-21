@@ -26,8 +26,8 @@ var upload = multer({
 
 var cloudinary = require('cloudinary');
 cloudinary.config({
-    cloud_name: 'michael-lee-415',
-    api_key: 252944288264838,
+    cloud_name: 'hlgkve1go',
+    api_key: 784981498878813,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
