@@ -28,7 +28,7 @@ var cloudinary = require('cloudinary');
 cloudinary.config({
 	cloud_name: 'hlgkve1go',
 	api_key: 784981498878813,
-	api_secret: C1N6bmP-N-TtrSBt7XD7bD6_YJ0
+	api_secret: 'C1N6bmP-N-TtrSBt7XD7bD6_YJ0'
 });
 
 //INDEX - Show all houses
