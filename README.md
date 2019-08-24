@@ -1,6 +1,11 @@
 # Rent A House
 A rental website where users can create or view housing listings.
 
+https://michael-lee-rentahouse.herokuapp.com/
+Demo Account: 
+Username: guest 
+Password: guest
+
 ## Built with
 Javascript, HTML, CSS, Node.js, Express.js, Mongoose.js, and MongoDB.
 
