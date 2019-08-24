@@ -8,7 +8,7 @@ Javascript, HTML, CSS, Node.js, Express.js, Mongoose.js, and MongoDB.
 * Features user signup and login authentication with username and password. 
 * Create, view, edit and delete posts and comments through restful routing. 
 * One cannot edit or delete existing posts and comments created by other users.
-* Upload campground photos from local.
+* Upload campground photos from local using Cloudinary API and multer.
 * Flash messages responding to users’ interaction with the app.
 * Uses momentJS to show post and comment creation and update timestamps. 
 * Forgot password function sends an email to reset user's password.
@@ -20,19 +20,17 @@ Javascript, HTML, CSS, Node.js, Express.js, Mongoose.js, and MongoDB.
 * Muli-page layout. 
 
 ## Dependencies
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
+* aysnc
+* body-parser
+* cloudinary
+* connect-flash
+* ejs
+* express
+* expres-session
+* moment
+* mongoose
+* multer
+* [nodemailer](https://nodemailer.com/about/)
+* passport
+* passport-local
+* passport-local-mongoose
