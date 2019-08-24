@@ -20,17 +20,17 @@ Javascript, HTML, CSS, Node.js, Express.js, Mongoose.js, and MongoDB.
 * Muli-page layout. 
 
 ## Dependencies
-* aysnc
-* body-parser
-* cloudinary
-* connect-flash
-* ejs
-* express
-* expres-session
-* moment
-* mongoose
-* multer
+* [aysnc](https://www.npmjs.com/package/async)
+* [body-parser](https://www.npmjs.com/package/body-parser)
+* [cloudinary](https://cloudinary.com/)
+* [connect-flash](https://github.com/jaredhanson/connect-flash)
+* [ejs](https://ejs.co/)
+* [express](https://expressjs.com/)
+* [expres-session](https://www.npmjs.com/package/express-session)
+* [moment](https://momentjs.com/)
+* [mongoose](https://mongoosejs.com/)
+* [multer](https://www.npmjs.com/package/multer)
 * [nodemailer](https://nodemailer.com/about/)
-* passport
-* passport-local
-* passport-local-mongoose
+* [passport](http://www.passportjs.org/)
+* [passport-local](http://www.passportjs.org/packages/passport-local/)
+* [passport-local-mongoose](https://github.com/saintedlama/passport-local-mongoose)
