@@ -21,7 +21,7 @@
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^1.2.1",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.6.7",
     "multer": "^1.4.2",
     "node-geocoder": "^3.23.0",
