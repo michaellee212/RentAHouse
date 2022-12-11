@@ -16,7 +16,7 @@
     "connect-flash": "^0.1.1",
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.16.2",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^1.2.1",
